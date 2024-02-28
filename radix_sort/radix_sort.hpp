@@ -4,7 +4,7 @@
 template<typename T>
 void __count_sort(std::vector<T>& arr, unsigned short digit) {
     std::vector<unsigned int> counter(16, 0);
-    unsigned long long int mask = (0xFULL) << 4 * digit; // 0000000000001111 & 0000000000001001010
+    unsigned long long int mask = (0xFULL) << 4 * digit;
     for (auto& elem : arr) {
         ++counter[(elem & mask) >> 4 * digit];
     }

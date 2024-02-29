@@ -13,16 +13,11 @@ public:
         }
         _m_size = l.size();
     }
-    ~avl_tree() {
-        bin_tree<T>::clear();
-    }
 
     void insert(const T& val) override {
         bool flag = true;
         __insert_node(_m_head, val, flag);
-        if (_m_size == 1) {
-            _m_end_node->left = _m_head;
-        }
+        _m_end_node->left = _m_head;
     }
     void erase(const T& val) override {
         bool flag = true;
@@ -120,12 +115,14 @@ private:
                 return;
             } else if (current->left == nullptr) {
                 __node* new_node = current->right;
+                current->right = nullptr;
                 delete current;
                 current = new_node;
                 --_m_size;
                 return;
             } else if (current->right == nullptr) {
                 __node* new_node = current->left;
+                current->left = nullptr;
                 delete current;
                 current = new_node;
                 --_m_size;

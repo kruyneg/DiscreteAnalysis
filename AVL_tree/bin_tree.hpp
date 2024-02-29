@@ -12,6 +12,12 @@ protected:
 
         __node(const T& val) : value(val), left(nullptr), right(nullptr), balance(0) {}
         __node(const T& val, __node* l, __node* r) : value(val), left(l), right(r), balance(0) {}
+        ~__node() {
+            if (left)
+                delete left;
+            if (right)
+                delete right;
+        }
     };
 public:
     class iterator {
@@ -72,7 +78,7 @@ public:
         _m_size = l.size();
     }
     ~bin_tree() {
-        clear();
+        delete _m_end_node;
     }
 
     virtual void insert(const T& val) {
@@ -134,7 +140,7 @@ public:
     }
 
     void clear() {
-        delete[] _m_head;
+        delete _m_head;
         _m_head = nullptr;
         _m_size = 0;
     }
@@ -159,10 +165,12 @@ protected:
             target = nullptr;
         } else if (target->left == nullptr) {
             __node* new_node = target->right;
+            target->right = nullptr;
             delete target;
             target = new_node;
         } else if (target->right == nullptr) {
             __node* new_node = target->left;
+            target->left = nullptr;
             delete target;
             target = new_node;
         } else {
